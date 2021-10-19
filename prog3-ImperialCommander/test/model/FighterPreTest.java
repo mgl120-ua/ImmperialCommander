@@ -252,9 +252,8 @@ public class FighterPreTest {
 	@Test
 	public final void testFight3() {
 		Fighter enemy = new Fighter("TIEFighter", imperialShip);
-		//assertEquals(-1,fighter.fight(enemy));
-		//assertEquals("[85, 88, 47, 13, 54, 4, 34, 6]",RandomNumber.getRandomNumberList().toString());
-		fail("error");
+		assertEquals(-1,fighter.fight(enemy));
+		assertEquals("[85, 88, 47, 13, 54, 4, 34, 6]",RandomNumber.getRandomNumberList().toString());
 	}
 
 	/* Test que comprueba Fight en la lucha entre un caza y un enemigo que tienen 

@@ -105,15 +105,15 @@ public class Fighter {
 	public int fight(Fighter enemy) {
 		int umbral, n;
 		while(enemy.isDestroyed()==false && this.isDestroyed()==false) {
-			n=RandomNumber.newRandomNumber(99);
-			umbral=(100 * this.velocity) / (this.velocity + enemy.velocity);
+			n=RandomNumber.newRandomNumber(100);
+			umbral=(100 * this.velocity) / (this.velocity + enemy.getVelocity());
 			if(umbral<=n) {
-				enemy.addShield(this.getDamage(n,enemy));
+				enemy.addShield(-(this.getDamage(n,enemy)));
 				if(enemy.isDestroyed()==true)
 					return 1;
 			}
 			else {
-				this.addShield(enemy.getDamage(100-n, this));
+				this.addShield(-(enemy.getDamage(100-n, this)));
 				if (this.isDestroyed()==true)
 					return -1;
 			}

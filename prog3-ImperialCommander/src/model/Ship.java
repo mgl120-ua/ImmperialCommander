@@ -42,7 +42,6 @@ public class Ship {
 		String[] str0 = fd.split(":");
 		for(int i=0; i<str0.length; i++) {
 			String[] str1 = str0[i].split("/");
-			//if((i%2)==0) {
 			int num = Integer.parseInt(str1[0]);
 			for(int j=0; j<num; j++) {
 				Fighter f = new Fighter(str1[1], this);
@@ -61,7 +60,7 @@ public class Ship {
 	
 	public Fighter getFirstAvailableFighter(String t) {		
 		for(int i=0; i<fleet.size(); i++) {
-			if(t==fleet.get(i).getType() || t=="") {
+			if(t.equals(fleet.get(i).getType()) || t=="") {
 				if(fleet.get(i).isDestroyed()==false)
 					return fleet.get(i);
 			}
@@ -80,9 +79,11 @@ public class Ship {
 	public String showFleet() {
 		String concatenation="";
 		for(int i=0; i<fleet.size(); i++) {
-			concatenation=fleet.get(i).toString();
+			concatenation += fleet.get(i).toString();
 			if(fleet.get(i).isDestroyed()==true)
-				concatenation += "(X)";
+				concatenation += " (X)\n";
+			else
+				concatenation += "\n";
 		}
 		return concatenation;
 	}
@@ -101,8 +102,8 @@ public class Ship {
 				t=fleet.get(i).getType();
 				
 				for(int j=i; j<fleet.size(); j++) {
-					if(t==fleet.get(i).getType()) {
-						if(fleet.get(i).isDestroyed()==false)
+					if(t.equals(fleet.get(j).getType())) {
+						if(fleet.get(j).isDestroyed()==false)
 							cont++;
 					}
 				}

@@ -17,8 +17,9 @@ public class Board {
 	
 	public Fighter getFighter(Coordinate c) {
 		Objects.requireNonNull(c);
-		
-		return board.get(c);
+		if(board.get(c)==null)
+			return null;
+		return new Fighter(board.get(c));
 	}
 
 	public int getSize() {
@@ -27,11 +28,12 @@ public class Board {
 	
 	public boolean removeFighter(Fighter f) {
 		Objects.requireNonNull(f);
-		
-		if(board.get(f.getPosition())==f) {
-			board.remove(f.getPosition());
-			return true;	
-		}
+		if(board.containsKey(f.getPosition()))
+			if(board.get(f.getPosition()).equals(f)) {
+				board.remove(f.getPosition());
+				f.setPosition(null);
+				return true;	
+			}
 				
 		return false;
 	}
@@ -50,7 +52,7 @@ public class Board {
 		
 		TreeSet<Coordinate> vecinos= (TreeSet<Coordinate>) c.getNeighborhood();
 		for(Coordinate cord: c.getNeighborhood()) {
-			 if(inside(cord)){
+			 if(!inside(cord)){
 				vecinos.remove(cord);
 			}	
 		}
@@ -94,10 +96,10 @@ public class Board {
 						f.getMotherShip().updateResults(result);
 						board.get(cord).getMotherShip().updateResults(result*-1);
 						if(result==-1) { 
-							board.remove(f.getPosition());
+							removeFighter(f);
 							break;
 						}else if(result==1) 
-							board.remove(cord);	
+							removeFighter(board.get(cord));
 					}
 				}	
 			}
