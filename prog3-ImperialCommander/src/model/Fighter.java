@@ -13,6 +13,8 @@ public class Fighter {
 	private Ship motherShip;
 
 	Fighter(String type, Ship mother){
+		id=nextId;
+		nextId++;
 		velocity=100;
 		attack=80;
 		shield=80;
@@ -120,8 +122,15 @@ public class Fighter {
 	}
 	
 	public String toString() {
-		String concatenation="";
-		concatenation += "(" + type + " " + id + " " + getSide() + " " + getPosition().toString() + " {"+ velocity + "," + attack + "," + shield + "})";
+		String concatenation="", position="";
+		
+		if(getPosition()==null) {
+			position += "null";
+		}else {
+			position += getPosition().toString();
+		}
+		
+		concatenation += "(" + type + " " + id + " " + getSide() + " " + position + " {"+ velocity + "," + attack + "," + shield + "})";
 		return concatenation;
 	}
 	

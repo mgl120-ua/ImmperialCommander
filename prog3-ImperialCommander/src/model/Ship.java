@@ -39,15 +39,16 @@ public class Ship {
 	}
 
 	public void addFighters(String fd) {
-		String[] str = fd.split("/:");
-		for(int i=0; i<str.length; i++) {
-			if(i%2==0) {
-				int num = Integer.parseInt(str[i]);
-				for(int j=0; j<num; j++) {
-					Fighter f = new Fighter(str[i+1], this);
-					fleet.add(f);
-				}
+		String[] str0 = fd.split(":");
+		for(int i=0; i<str0.length; i++) {
+			String[] str1 = str0[i].split("/");
+			//if((i%2)==0) {
+			int num = Integer.parseInt(str1[0]);
+			for(int j=0; j<num; j++) {
+				Fighter f = new Fighter(str1[1], this);
+				fleet.add(f);
 			}
+			
 		}
 	}
 	
@@ -69,7 +70,7 @@ public class Ship {
 		return null;
 	}
 	
-	public void purgefleet() {
+	public void purgeFleet() {
 		for(int i=0; i<fleet.size(); i++) {
 			if(fleet.get(i).isDestroyed()==true)
 					fleet.remove(i);
