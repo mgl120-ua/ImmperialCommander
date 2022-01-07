@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import model.exceptions.NoFighterAvailableException;
 
@@ -24,7 +25,7 @@ public class Ship {
 	private Side side;
 	
 	/** Flota de cazas de la nave */
-	private ArrayList<Fighter> fleet=new ArrayList<Fighter>();
+	protected ArrayList<Fighter> fleet=new ArrayList<Fighter>();
 	
 	/**
 	 * Constructor de una nave
@@ -33,6 +34,9 @@ public class Ship {
 	 * @param side (bando del caza)
 	 */
 	public Ship(String name, Side side) {
+		Objects.requireNonNull(name);
+		Objects.requireNonNull(side);
+		
 		this.name=name;
 		this.side=side;
 		wins=0;
@@ -40,7 +44,7 @@ public class Ship {
 	}
 	
 	/**
-	 * Devuelv el nombre de la nave
+	 * Devuelve el nombre de la nave
 	 *
 	 * @return name
 	 */
@@ -91,24 +95,28 @@ public class Ship {
 	 * @param fd (cadena de cazas con el numero de cazas y el nombre del caza a añadir separado por : cada grupo de cazas y / el numero de cazas y el nombre)
 	 */
 	public void addFighters(String fd) {
+		Objects.requireNonNull(fd);
+		
 		String[] str0 = fd.split(":");
 		for(int i=0; i<str0.length; i++) {
 			String[] str1 = str0[i].split("/");
 			int num = Integer.parseInt(str1[0]);
 			for(int j=0; j<num; j++) {
 				Fighter f = FighterFactory.createFighter(str1[1], this);
-				fleet.add(f);
+				if(f!=null)
+					fleet.add(f);
 			}
 			
 		}
 	}
 	
 	/**
-	 * Actualiza los resultados de las victorias y derrotas
+	 * Actualiza los resultados de las victorias y derrotas.
 	 *
 	 * @param r (1 si ha ganado, -1 si ha perdido)
+	 * @param f the f
 	 */
-	public void updateResults(int r) {
+	public void updateResults(int r, Fighter f) {
 		if(r==1)
 			wins++;
 		if(r==-1)
@@ -123,6 +131,7 @@ public class Ship {
 	 * @throws NoFighterAvailableException 
 	 */
 	public Fighter getFirstAvailableFighter(String t) throws NoFighterAvailableException {		
+		Objects.requireNonNull(t);
 		
 		for(int i=0; i<fleet.size(); i++) {
 			if(t.equals(fleet.get(i).getType()) || t=="") {

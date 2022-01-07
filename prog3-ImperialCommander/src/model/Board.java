@@ -22,7 +22,7 @@ public class Board {
 	private int size;
 	
 	/** Mapa para alamacenar los cazas en posiciones del tablero */
-	private Map<Coordinate, Fighter> board;
+	protected Map<Coordinate, Fighter> board;
 	
 	/**
 	 * Constructor del tablero
@@ -63,24 +63,21 @@ public class Board {
 	 * Elimina caza del tablero 
 	 *
 	 * @param f (caza)
-	 * @return true si se ha borrado, false si no existe el caza en el mapa
 	 * @throws FighterNotInBoardException 
 	 */
-	public boolean removeFighter(Fighter f) throws FighterNotInBoardException {
+	public void removeFighter(Fighter f) throws FighterNotInBoardException {
 		Objects.requireNonNull(f);
 		
 		if(board.containsKey(f.getPosition())) {
 			if(board.get(f.getPosition()).equals(f)) {
 				board.remove(f.getPosition());
 				f.setPosition(null);
-				return true;	
 			}
-			if(!(board.containsValue(f)) || !(board.get(f.getPosition()).equals(f)))
+			else if(!(board.containsValue(f)) || !(board.get(f.getPosition()).equals(f)))
 					throw new FighterNotInBoardException(f);
 		}else 
 			throw new FighterNotInBoardException(f);
-		
-		return false;
+
 	}
 	
 	/**
@@ -135,7 +132,8 @@ public class Board {
 		Objects.requireNonNull(c);
 		Objects.requireNonNull(f);
 		
-		if(board.containsValue(f))
+		//if(board.containsValue(f))
+		if(f.getPosition()!=null)
 			throw new FighterAlreadyInBoardException(f);
 		
 		if(inside(c)) {
@@ -143,9 +141,10 @@ public class Board {
 				if(f.getSide()!=board.get(c).getSide()) {
 					try {
 						int result=f.fight(board.get(c));
-						f.getMotherShip().updateResults(result);
-						board.get(c).getMotherShip().updateResults(result*-1);
+						f.getMotherShip().updateResults(result,board.get(c));
+						board.get(c).getMotherShip().updateResults(result*-1,f);
 						if(result==1) {
+							board.get(c).setPosition(null);
 							board.put(c,f);
 							f.setPosition(c);
 						}
@@ -174,25 +173,26 @@ public class Board {
 	public void patrol(Fighter f) throws FighterNotInBoardException {
 		Objects.requireNonNull(f);
 		
-		if(board.containsValue(f)) {
+		//if(!board.containsValue(f)) {
+		if(f.getPosition()!=null) {
 			try {
 				for(Coordinate cord: getNeighborhood(f.getPosition())) {
 					if(board.containsKey(cord)) {
 						if(f.getSide()!=board.get(cord).getSide()) {
 							try {
 							int result=f.fight(board.get(cord));
-							f.getMotherShip().updateResults(result);
-							board.get(cord).getMotherShip().updateResults(result*-1);
+							f.getMotherShip().updateResults(result,board.get(cord));
+							board.get(cord).getMotherShip().updateResults(result*-1,f);
 							if(result==-1) { 
 								try {
-								removeFighter(f);
+									removeFighter(f);
 								}catch(FighterNotInBoardException e) {
 									throw new FighterNotInBoardException(f);
 								}
 								break;
 							}else if(result==1) 
 								try {
-								removeFighter(board.get(cord));
+									removeFighter(board.get(cord));
 								}catch(FighterNotInBoardException e) {
 									throw new FighterNotInBoardException(f);
 								}

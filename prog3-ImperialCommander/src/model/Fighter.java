@@ -4,40 +4,44 @@ import java.util.Objects;
 
 import model.exceptions.FighterIsDestroyedException;
 
-/** @author Marta Grimaldos López, 50507753Y
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Fighter.
+ *
+ * @author Marta Grimaldos López, 50507753Y
  * Clase Fighter
- * Creacion y comportamiento de los cazas 
+ * Creacion y comportamiento de los cazas
  */
 public abstract class Fighter {
 	
-	/** Velocidad del caza */
+	/**  Velocidad del caza. */
 	private int velocity;
 	
-	/** Capacidad de ataque del caza */
+	/**  Capacidad de ataque del caza. */
 	private int attack;
 	
-	/** Escudo del caza */
+	/**  Escudo del caza. */
 	private int shield;
 	
-	/** Identificador unico para cada caza */
+	/**  Identificador unico para cada caza. */
 	private int id;
 	
-	/** Valor para asignar al id de cada caza creado */
+	/**  Valor para asignar al id de cada caza creado. */
 	private static int nextId=1;
 	
-	/** Coordenada para la posicion del caza en el tablero*/
+	/**  Coordenada para la posicion del caza en el tablero. */
 	private Coordinate position;
 	
-	/** Nave a la que pertenece el caza */
+	/**  Nave a la que pertenece el caza. */
 	private Ship motherShip;
 
 	/**
-	 * Constructor de cazas
+	 * Constructor de cazas.
 	 *
-	 * @param type (tipo de caza)
 	 * @param mother (nave a la que va a pertenecer)
 	 */
 	protected Fighter(Ship mother){
+		Objects.requireNonNull(mother);
 		id=nextId;
 		nextId++;
 		velocity=100;
@@ -48,11 +52,12 @@ public abstract class Fighter {
 	}
 	
 	/**
-	 * Constructor de copia 
+	 * Constructor de copia .
 	 *
 	 * @param f the f
 	 */
 	protected Fighter(Fighter f) {
+		Objects.requireNonNull(f);
 		this.velocity=f.getVelocity();
 		this.attack=f.getAttack();
 		this.shield=f.getShield();
@@ -62,14 +67,14 @@ public abstract class Fighter {
 	}
 	
 	/**
-	 * inicializa el atributo nextId a 1
+	 * inicializa el atributo nextId a 1.
 	 */
 	public static void resetNextId() {
 		nextId=1;
 	}
 	
 	/**
-	 * Devuelve el tipo de caza
+	 * Devuelve el tipo de caza.
 	 *
 	 * @return type
 	 */
@@ -78,7 +83,7 @@ public abstract class Fighter {
 	}
 
 	/**
-	 * Devuelve la velocidad del caza
+	 * Devuelve la velocidad del caza.
 	 *
 	 * @return velocity
 	 */
@@ -87,7 +92,7 @@ public abstract class Fighter {
 	}
 
 	/**
-	 * Devuelve la capacidad de ataque del caza
+	 * Devuelve la capacidad de ataque del caza.
 	 *
 	 * @return attack
 	 */
@@ -96,7 +101,7 @@ public abstract class Fighter {
 	}
 
 	/**
-	 * Devuelve escudo del caza
+	 * Devuelve escudo del caza.
 	 *
 	 * @return shield
 	 */
@@ -105,7 +110,7 @@ public abstract class Fighter {
 	}
 
 	/**
-	 * Devuelve el id del caza
+	 * Devuelve el id del caza.
 	 *
 	 * @return id
 	 */
@@ -114,7 +119,7 @@ public abstract class Fighter {
 	}
 
 	/**
-	 * Devuelve la nave que pertenece el caza
+	 * Devuelve la nave que pertenece el caza.
 	 *
 	 * @return side
 	 */
@@ -123,7 +128,7 @@ public abstract class Fighter {
 	}
 	
 	/**
-	 * Devuelve la posicion del caza
+	 * Devuelve la posicion del caza.
 	 *
 	 * @return position
 	 */
@@ -132,7 +137,7 @@ public abstract class Fighter {
 	}
 	
 	/**
-	 * Devuelve el bando al que pertenece el caza
+	 * Devuelve el bando al que pertenece el caza.
 	 *
 	 * @return motherShip
 	 */
@@ -141,7 +146,7 @@ public abstract class Fighter {
 	}
 	
 	/**
-	 * Cambia la coordenada que tiene como posicion el caza 
+	 * Cambia la coordenada que tiene como posicion el caza .
 	 *
 	 * @param p (la coordenada de la nueva posicion)
 	 */
@@ -150,7 +155,7 @@ public abstract class Fighter {
 	}
 	
 	/**
-	 * Suma al ataque mas o menos ataque 
+	 * Suma al ataque mas o menos ataque .
 	 *
 	 * @param at (ataque a añadir)
 	 */
@@ -161,7 +166,7 @@ public abstract class Fighter {
 	}
 
 	/**
-	 *  Suma a la velocidad mas o menos velocidad 
+	 *  Suma a la velocidad mas o menos velocidad .
 	 *
 	 * @param vel (velocidad a añadir)
 	 */
@@ -172,7 +177,7 @@ public abstract class Fighter {
 	}
 	
 	/**
-	 * Suma a la escudo mas o menos escudo
+	 * Suma a la escudo mas o menos escudo.
 	 *
 	 * @param sh (escudo a añadir)
 	 */
@@ -181,7 +186,7 @@ public abstract class Fighter {
 	}
 	
 	/**
-	 * Comprueba si esta destruido o no el caza
+	 * Comprueba si esta destruido o no el caza.
 	 *
 	 * @return true si esta destruido o false si no esta destruido
 	 */
@@ -193,26 +198,29 @@ public abstract class Fighter {
 	}
 	
 	/**
-	 * Devuelve el daño causado 
+	 * Devuelve el daño causado .
 	 *
 	 * @param n (umbral creado en la lucha)
 	 * @param enemy (caza enemigo)
 	 * @return daño
 	 */
 	public int getDamage(int n, Fighter enemy) {
+		Objects.requireNonNull(n);
+		Objects.requireNonNull(enemy);
 		int damage;
 		damage=(n*attack)/300;
 		return damage;
 	}
 	
 	/**
-	 * Hace la lucha entre el caza y el caza enemigo
+	 * Hace la lucha entre el caza y el caza enemigo.
 	 *
 	 * @param enemy (caza enemigo)
 	 * @return 1 si el caza destruido es el enemigo, -1 si el caza invocado esta destruido
-	 * @throws FighterIsDestroyedException 
+	 * @throws FighterIsDestroyedException the fighter is destroyed exception
 	 */
 	public int fight(Fighter enemy) throws FighterIsDestroyedException {
+		Objects.requireNonNull(enemy);
 		int umbral, n;
 		if(enemy.isDestroyed()==true) 
 			throw new FighterIsDestroyedException(enemy);
@@ -238,7 +246,7 @@ public abstract class Fighter {
 	}
 	
 	/**
-	 * Crea una cadena con la descripcion del caza 
+	 * Crea una cadena con la descripcion del caza .
 	 *
 	 * @return descripcion del caza
 	 */
@@ -256,7 +264,7 @@ public abstract class Fighter {
 	}
 	
 	/**
-	 * Hash code
+	 * Hash code.
 	 *
 	 * @return int
 	 */
@@ -266,9 +274,9 @@ public abstract class Fighter {
 	}
 	
 	/**
-	 * Equals
+	 * Equals.
 	 *
-	 * @param obj
+	 * @param obj the obj
 	 * @return true si es correcto
 	 */
 	@Override
@@ -283,8 +291,27 @@ public abstract class Fighter {
 		return id == other.id;
 	}
 	
+	/**
+	 * Copia los cazas y se implementa en los tipos de caza.
+	 *
+	 * @return the fighter
+	 */
 	public abstract Fighter copy();
 	
+	/**
+	 * Devuelve el simbolo de cada caza.
+	 *
+	 * @return the symbol
+	 */
 	public abstract char getSymbol();
+	
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
+	public int getValue() {
+		return(velocity+attack);
+	}
 	
 }
